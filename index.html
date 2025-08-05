@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Quiz</title>
+  <style>
+    body { font-family: 'Courier New', monospace; background: #fffbe7; color: #333; max-width: 600px; margin: auto; padding: 20px; }
+    h1 { text-align: center; font-size: 2em; }
+    .question { margin-bottom: 20px; }
+    button { margin-top: 10px; padding: 10px 20px; font-size: 1em; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Quick Quiz</h1>
+  <form id="quizForm">
+    <div class="question">
+      <p>1. What is the capital of France?</p>
+      <input type="radio" name="q1" value="Paris" /> Paris<br />
+      <input type="radio" name="q1" value="London" /> London<br />
+      <input type="radio" name="q1" value="Berlin" /> Berlin
+    </div>
+    <div class="question">
+      <p>2. 2 + 2 = ?</p>
+      <input type="radio" name="q2" value="4" /> 4<br />
+      <input type="radio" name="q2" value="3" /> 3<br />
+      <input type="radio" name="q2" value="5" /> 5
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const answers = { q1: "Paris", q2: "4" };
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let score = 0;
+      let resultHTML = "<h2>Result:</h2>";
+      for (let q in answers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (selected) {
+          const isCorrect = selected.value === answers[q];
+          resultHTML += `<p>${q}: <span class="${isCorrect ? 'correct' : 'incorrect'}">${selected.value}</span> (${isCorrect ? 'Correct' : 'Incorrect'})</p>`;
+          if (isCorrect) score++;
+        } else {
+          resultHTML += `<p>${q}: <span class="incorrect">No answer</span></p>`;
+        }
+      }
+      resultHTML += `<p><strong>Your Score: ${score} / ${Object.keys(answers).length}</strong></p>`;
+      document.getElementById("result").innerHTML = resultHTML;
+    });
+  </script>
+</body>
+</html>
